@@ -2,8 +2,8 @@
 <html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TikTok Downloader Royale - MP3 & MP4 Tanpa Watermark</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TikTok Downloader - MP3 & MP4 Tanpa Watermark</title>
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,18 +18,15 @@
        1. COLOR VARIABLES (LIGHT & DARK NEOBRUTALISM PRO)
        ======================================================== */
     :root {
-      /* Mode Default (Dark Neobrutalism) */
       --bg-color: #0E0E12;
       --bg-dot: #262633;
       --card-bg: #181820;
       --card-inner: #121217;
       --text-color: #FFFFFF;
-      --text-muted: #9E9EAF;
+      --text-muted: #A0A0B5;
       --border-color: #000000;
-      --border-highlight: #343444;
       --shadow-color: #000000;
       
-      /* Vibrant Neobrutal Accents */
       --primary-yellow: #FFE600;
       --accent-cyan: #00F0FF;
       --accent-pink: #FF3366;
@@ -46,9 +43,8 @@
       --card-bg: #FFFFFF;
       --card-inner: #F5F5F7;
       --text-color: #121212;
-      --text-muted: #666666;
+      --text-muted: #555555;
       --border-color: #121212;
-      --border-highlight: #121212;
       --shadow-color: #121212;
       
       --primary-yellow: #FFE600;
@@ -59,35 +55,38 @@
     }
 
     /* ========================================================
-       2. RESET & BASE LAYOUT
+       2. RESET & BASE LAYOUT (ANTI-ZOOM & SCROLLABLE)
        ======================================================== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
       transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
 
-    body {
-      min-height: 100vh;
+    html, body {
       width: 100%;
+      min-height: 100vh;
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-color);
-      /* Neobrutalist Polka Grid */
       background-image: radial-gradient(var(--bg-dot) 1.5px, transparent 1.5px);
       background-size: 20px 20px;
       color: var(--text-color);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 24px 16px;
+      justify-content: flex-start;
+      padding: 16px 12px 40px;
       overflow-x: hidden;
+      touch-action: pan-y;
+      -webkit-text-size-adjust: 100%;
     }
 
     .main-wrapper {
       width: 100%;
-      max-width: 480px;
+      max-width: 500px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -95,13 +94,45 @@
     }
 
     /* ========================================================
-       3. TOP CONTROLS (THEME SWITCHER & BADGE)
+       3. TOP RUNNING TICKER
+       ======================================================== */
+    .neo-marquee {
+      width: 100%;
+      background: var(--primary-yellow);
+      color: #000000;
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 12px;
+      padding: 8px 0;
+      overflow: hidden;
+      box-shadow: 4px 4px 0px var(--shadow-color);
+      font-weight: 900;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      white-space: nowrap;
+      user-select: none;
+    }
+
+    .marquee-track {
+      display: inline-flex;
+      gap: 20px;
+      animation: marquee 14s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ========================================================
+       4. TOP CONTROLS & HEADER
        ======================================================== */
     .top-bar {
       width: 100%;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      padding: 0 2px;
     }
 
     .top-badge {
@@ -124,11 +155,11 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      background: var(--primary-yellow);
+      background: var(--accent-cyan);
       color: #000000;
       font-family: inherit;
       font-weight: 800;
-      font-size: 12px;
+      font-size: 11px;
       text-transform: uppercase;
       padding: 6px 12px;
       border: var(--border-thick) solid var(--border-color);
@@ -142,9 +173,6 @@
       box-shadow: 1px 1px 0px var(--shadow-color);
     }
 
-    /* ========================================================
-       4. HEADER SECTION
-       ======================================================== */
     .header-title {
       font-size: 30px;
       font-weight: 900;
@@ -160,32 +188,32 @@
     }
 
     .header-title span {
-      background: var(--accent-cyan);
-      color: #000000;
+      background: var(--accent-pink);
+      color: #FFFFFF;
       padding: 3px 10px;
       border: var(--border-thick) solid var(--border-color);
       border-radius: 10px;
       box-shadow: 3px 3px 0px var(--shadow-color);
-      transform: rotate(-1deg);
+      transform: rotate(-1.5deg);
     }
 
     /* ========================================================
-       5. MAIN NEOBRUTAL CARD
+       5. MAIN NEOBRUTAL CARD & DOWNLOADER
        ======================================================== */
     .neo-card {
       width: 100%;
       background: var(--card-bg);
       border: var(--border-thick) solid var(--border-color);
       border-radius: 20px;
-      padding: 24px 20px;
+      padding: 22px 18px;
       box-shadow: var(--shadow-size) var(--shadow-size) 0px var(--shadow-color);
     }
 
     .input-group {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-bottom: 16px;
+      gap: 6px;
+      margin-bottom: 14px;
       text-align: left;
     }
 
@@ -215,7 +243,6 @@
     }
 
     .neo-input:focus {
-      border-color: var(--border-color);
       box-shadow: 5px 5px 0px var(--shadow-color);
       transform: translate(-1px, -1px);
     }
@@ -225,9 +252,6 @@
       font-weight: 600;
     }
 
-    /* ========================================================
-       6. BUTTONS & INTERACTION
-       ======================================================== */
     .button-group {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -244,7 +268,7 @@
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      padding: 13px 16px;
+      padding: 13px 14px;
       border: var(--border-thick) solid var(--border-color);
       border-radius: 12px;
       box-shadow: 3px 3px 0px var(--shadow-color);
@@ -279,12 +303,10 @@
       color: #000000;
     }
 
-    /* ========================================================
-       7. RESULT & DOWNLOAD SECTION
-       ======================================================== */
+    /* Result State */
     .status-box {
-      margin-top: 18px;
-      padding: 13px;
+      margin-top: 14px;
+      padding: 12px;
       border: var(--border-thick) solid var(--border-color);
       border-radius: 12px;
       font-weight: 800;
@@ -308,8 +330,8 @@
     }
 
     .result-container {
-      margin-top: 20px;
-      padding-top: 20px;
+      margin-top: 16px;
+      padding-top: 16px;
       border-top: var(--border-thick) dashed var(--border-color);
       animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
@@ -323,9 +345,9 @@
       background: var(--card-inner);
       border: var(--border-thick) solid var(--border-color);
       border-radius: 14px;
-      padding: 12px;
+      padding: 10px;
       box-shadow: 3px 3px 0px var(--shadow-color);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .cover-wrapper {
@@ -334,20 +356,20 @@
       border-radius: 10px;
       overflow: hidden;
       border: 2px solid var(--border-color);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .cover-img {
       width: 100%;
-      max-height: 220px;
+      max-height: 240px;
       object-fit: cover;
       display: block;
     }
 
     .author-badge {
       position: absolute;
-      top: 8px;
-      left: 8px;
+      top: 6px;
+      left: 6px;
       background: #000000;
       color: #FFFFFF;
       font-size: 11px;
@@ -358,13 +380,13 @@
     }
 
     .video-title {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       text-align: left;
       line-height: 1.4;
       color: var(--text-color);
       background: var(--card-bg);
-      padding: 9px 12px;
+      padding: 8px 10px;
       border: 2px solid var(--border-color);
       border-radius: 8px;
       display: -webkit-box;
@@ -376,7 +398,7 @@
     .download-grid {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .btn-mp4 {
@@ -390,12 +412,9 @@
       width: 100%;
     }
 
-    /* ========================================================
-       8. DEVELOPER ONLY FOOTER
-       ======================================================== */
     .neo-footer {
-      margin-top: 24px;
-      padding-top: 18px;
+      margin-top: 18px;
+      padding-top: 14px;
       border-top: var(--border-thick) solid var(--border-color);
       display: flex;
       justify-content: center;
@@ -409,26 +428,267 @@
       background: var(--card-inner);
       color: var(--text-color);
       border: var(--border-thick) solid var(--border-color);
-      padding: 8px 18px;
+      padding: 7px 16px;
       border-radius: 50px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
       box-shadow: 3px 3px 0px var(--shadow-color);
     }
 
     .dev-badge i {
       color: #EAB308;
+      font-size: 14px;
+    }
+
+    /* ========================================================
+       6. FEATURE HIGHLIGHTS GRID
+       ======================================================== */
+    .feature-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .feature-box {
+      background: var(--card-bg);
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 14px;
+      padding: 12px 6px;
+      text-align: center;
+      box-shadow: 3px 3px 0px var(--shadow-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .feature-box i {
+      font-size: 20px;
+      margin-bottom: 2px;
+    }
+
+    .feature-box:nth-child(1) i { color: var(--primary-yellow); }
+    .feature-box:nth-child(2) i { color: var(--accent-cyan); }
+    .feature-box:nth-child(3) i { color: var(--accent-green); }
+
+    .feature-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .feature-desc {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* ========================================================
+       7. TUTORIAL & HOW TO USE (BIMBINGAN PENGGUNA)
+       ======================================================== */
+    .guide-card {
+      width: 100%;
+      background: var(--card-bg);
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 18px;
+      padding: 20px 18px;
+      box-shadow: var(--shadow-size) var(--shadow-size) 0px var(--shadow-color);
+    }
+
+    .section-heading {
       font-size: 15px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .section-heading i {
+      color: var(--primary-yellow);
+    }
+
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--card-inner);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 2px 2px 0px var(--shadow-color);
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      background: var(--accent-pink);
+      color: #FFFFFF;
+      font-weight: 900;
+      font-size: 12px;
+      border-radius: 8px;
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 0px var(--shadow-color);
+    }
+
+    .step-item:nth-child(2) .step-number {
+      background: var(--accent-cyan);
+      color: #000000;
+    }
+
+    .step-item:nth-child(3) .step-number {
+      background: var(--accent-green);
+      color: #000000;
+    }
+
+    .step-content {
+      text-align: left;
+    }
+
+    .step-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-color);
+    }
+
+    .step-sub {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    /* ========================================================
+       8. FAQ & ABOUT INFO CARDS
+       ======================================================== */
+    .info-card {
+      width: 100%;
+      background: var(--card-bg);
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow-size) var(--shadow-size) 0px var(--shadow-color);
+      text-align: left;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .faq-box {
+      background: var(--card-inner);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .faq-q {
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-color);
+      margin-bottom: 4px;
+    }
+
+    .faq-q i {
+      color: var(--accent-cyan);
+      font-size: 11px;
+    }
+
+    .faq-a {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      line-height: 1.4;
+      padding-left: 17px;
+    }
+
+    /* Status Bar & Copyright */
+    .status-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--card-inner);
+      color: var(--text-color);
+      border: 2px solid var(--border-color);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 2px 2px 0px var(--shadow-color);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
+      animation: pulseGreen 1.8s infinite;
+    }
+
+    @keyframes pulseGreen {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 230, 118, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+    }
+
+    .bottom-copyright {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
     }
   </style>
 </head>
 
 <body>
   <div class="main-wrapper">
+    <!-- Running Marquee Banner (Atas) -->
+    <div class="neo-marquee">
+      <div class="marquee-track">
+        <span>FAST DOWNLOAD</span>
+        <span>✦</span>
+        <span>NO WATERMARK HD</span>
+        <span>✦</span>
+        <span>SUPPORT MP3 & MP4</span>
+        <span>✦</span>
+        <span>100% FREE & NO IKLAN</span>
+        <span>✦</span>
+        <span>FAST DOWNLOAD</span>
+        <span>✦</span>
+        <span>NO WATERMARK HD</span>
+        <span>✦</span>
+        <span>SUPPORT MP3 & MP4</span>
+        <span>✦</span>
+        <span>100% FREE & NO IKLAN</span>
+        <span>✦</span>
+      </div>
+    </div>
+
     <!-- Top Bar: Badge & Theme Switcher -->
     <div class="top-bar">
       <div class="top-badge">
-        <i class="fa-solid fa-bolt"></i> Fast Downloader
+        <i class="fa-solid fa-bolt"></i> Downloader Tiktok
       </div>
       <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema">
         <i class="fa-solid fa-sun" id="themeIcon"></i>
@@ -438,10 +698,10 @@
 
     <!-- Header Title -->
     <h1 class="header-title">
-      TikTok <span>Royale</span>
+      Downloaders <span>Tiktok</span>
     </h1>
 
-    <!-- Main Container -->
+    <!-- Main Card Downloader -->
     <div class="neo-card">
       <div class="input-group">
         <label class="input-label" for="tiktokUrl">
@@ -465,10 +725,10 @@
         </button>
       </div>
 
-      <!-- Result Target -->
+      <!-- Container Hasil Unduhan -->
       <div id="result"></div>
 
-      <!-- Developer Info Footer (Sosmed dihapus) -->
+      <!-- Developer Badge -->
       <div class="neo-footer">
         <div class="dev-badge">
           <i class="fa-solid fa-crown"></i>
@@ -477,17 +737,118 @@
         </div>
       </div>
     </div>
+
+    <!-- Fitur Highlight Grid -->
+    <div class="feature-grid">
+      <div class="feature-box">
+        <i class="fa-solid fa-bolt"></i>
+        <div class="feature-title">Super Cepat</div>
+        <div class="feature-desc">Konversi Instan</div>
+      </div>
+      <div class="feature-box">
+        <i class="fa-solid fa-video"></i>
+        <div class="feature-title">No Watermark</div>
+        <div class="feature-desc">Kualitas HD Asli</div>
+      </div>
+      <div class="feature-box">
+        <i class="fa-solid fa-music"></i>
+        <div class="feature-title">Audio MP3</div>
+        <div class="feature-desc">Suara Jernih</div>
+      </div>
+    </div>
+
+    <!-- Panduan Cara Penggunaan (Bimbingan Web) -->
+    <div class="guide-card">
+      <div class="section-heading">
+        <i class="fa-solid fa-book-open"></i>
+        <span>Cara Mudah Mengunduh</span>
+      </div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Salin Link Video</div>
+            <div class="step-sub">Buka TikTok, klik Bagikan > Salin Tautan video.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Tempel & Proses</div>
+            <div class="step-sub">Tempel tautan di kotak input lalu klik tombol Proses.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Simpan MP4 / MP3</div>
+            <div class="step-sub">Pilih unduh video tanpa watermark atau audio saja.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ & Info Kemudahan -->
+    <div class="info-card">
+      <div class="section-heading">
+        <i class="fa-solid fa-circle-question"></i>
+        <span>Keunggulan & Info</span>
+      </div>
+      <div class="faq-list">
+        <div class="faq-box">
+          <div class="faq-q">
+            <i class="fa-solid fa-check"></i> 100% Gratis & Tanpa Batas
+          </div>
+          <div class="faq-a">
+            Unduh sebanyak mungkin video tanpa perlu registrasi atau langganan akun.
+          </div>
+        </div>
+        <div class="faq-box">
+          <div class="faq-q">
+            <i class="fa-solid fa-shield-halved"></i> Aman & Privasi Terjaga
+          </div>
+          <div class="faq-a">
+            Tautan diproses langsung tanpa menyimpan riwayat pencarian atau data pribadi.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Server Status -->
+    <div class="status-bar">
+      <div class="pulse-dot"></div>
+      <span>Status Server: <strong>Online & Siap Pakai</strong></span>
+    </div>
+
+    <div class="bottom-copyright">
+      TikTok Downloaders &bull; Fast & Clean Downloader ©2026
+    </div>
   </div>
 
   <script>
-    // State management
+    /* Anti-Pinch & Anti Double-Tap Zoom */
+    document.addEventListener('gesturestart', e => e.preventDefault());[span_0](start_span)[span_0](end_span)
+    document.addEventListener('gesturechange', e => e.preventDefault());[span_1](start_span)[span_1](end_span)
+    document.addEventListener('gestureend', e => e.preventDefault());[span_2](start_span)[span_2](end_span)
+    document.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });[span_3](start_span)[span_3](end_span)
+
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (event) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, { passive: false });
+
+    /* State Management */
     let currentMedia = {
       videoUrl: '',
       musicUrl: '',
       title: ''
     };
 
-    // --- 1. THEME SWITCHER LOGIC ---
+    /* Theme Switcher */
     function initTheme() {
       const savedTheme = localStorage.getItem('app_theme') || 'dark';
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -516,10 +877,9 @@
       }
     }
 
-    // Jalankan inisialisasi tema saat load
     initTheme();
 
-    // --- 2. TIKTOK DOWNLOAD LOGIC ---
+    /* Download Logic */
     async function getTiktok() {
       const input = document.getElementById("tiktokUrl");
       const result = document.getElementById("result");
@@ -532,7 +892,6 @@
         return;
       }
 
-      // Tampilkan status proses
       btnProcess.disabled = true;
       result.innerHTML = `
         <div class="status-box loading">
@@ -558,9 +917,8 @@
         }
 
         const data = json.data;
-        const videoTitle = data.title || 'Video TikTok Royale';
+        const videoTitle = data.title || 'Video TikTok Downloaders';
 
-        // Simpan tautan media
         currentMedia.videoUrl = data.play || data.wmplay || '';
         currentMedia.musicUrl = data.music || '';
         currentMedia.title = videoTitle.replace(/[\\/:*?"<>|]/g, '');
@@ -568,7 +926,6 @@
         const authorName = (data.author && data.author.unique_id) ? `@${data.author.unique_id}` : '@tiktok_user';
         const coverImg = data.cover || 'https://placehold.co/400x200?text=No+Cover';
 
-        // Render tampilan hasil
         result.innerHTML = `
           <div class="result-container">
             <div class="preview-card">
