@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>TikTok Downloader - MP3 & MP4 Tanpa Watermark</title>
+  <title>TikTok Downloader Royale - MP3 & MP4 Tanpa Watermark</title>
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -303,7 +303,6 @@
       color: #000000;
     }
 
-    /* Result State */
     .status-box {
       margin-top: 14px;
       padding: 12px;
@@ -441,7 +440,7 @@
     }
 
     /* ========================================================
-       6. FEATURE HIGHLIGHTS GRID
+       6. FEATURE HIGHLIGHTS & SECTIONS
        ======================================================== */
     .feature-grid {
       width: 100%;
@@ -485,9 +484,6 @@
       color: var(--text-muted);
     }
 
-    /* ========================================================
-       7. TUTORIAL & HOW TO USE (BIMBINGAN PENGGUNA)
-       ======================================================== */
     .guide-card {
       width: 100%;
       background: var(--card-bg);
@@ -571,9 +567,6 @@
       color: var(--text-muted);
     }
 
-    /* ========================================================
-       8. FAQ & ABOUT INFO CARDS
-       ======================================================== */
     .info-card {
       width: 100%;
       background: var(--card-bg);
@@ -620,7 +613,6 @@
       padding-left: 17px;
     }
 
-    /* Status Bar & Copyright */
     .status-bar {
       display: inline-flex;
       align-items: center;
@@ -663,32 +655,30 @@
 
 <body>
   <div class="main-wrapper">
-    <!-- Running Marquee Banner (Atas) -->
     <div class="neo-marquee">
       <div class="marquee-track">
-        <span>FAST DOWNLOAD</span>
+        <span>⚡ FAST DOWNLOAD</span>
         <span>✦</span>
         <span>NO WATERMARK HD</span>
         <span>✦</span>
         <span>SUPPORT MP3 & MP4</span>
         <span>✦</span>
-        <span>100% FREE & NO IKLAN</span>
+        <span>100% FREE & SECURE</span>
         <span>✦</span>
-        <span>FAST DOWNLOAD</span>
+        <span>⚡ FAST DOWNLOAD</span>
         <span>✦</span>
         <span>NO WATERMARK HD</span>
         <span>✦</span>
         <span>SUPPORT MP3 & MP4</span>
         <span>✦</span>
-        <span>100% FREE & NO IKLAN</span>
+        <span>100% FREE & SECURE</span>
         <span>✦</span>
       </div>
     </div>
 
-    <!-- Top Bar: Badge & Theme Switcher -->
     <div class="top-bar">
       <div class="top-badge">
-        <i class="fa-solid fa-bolt"></i> Downloader Tiktok
+        <i class="fa-solid fa-bolt"></i> Downloader Royale
       </div>
       <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema">
         <i class="fa-solid fa-sun" id="themeIcon"></i>
@@ -696,12 +686,10 @@
       </button>
     </div>
 
-    <!-- Header Title -->
     <h1 class="header-title">
-      Downloaders <span>Tiktok</span>
+      TikTok <span>Royale</span>
     </h1>
 
-    <!-- Main Card Downloader -->
     <div class="neo-card">
       <div class="input-group">
         <label class="input-label" for="tiktokUrl">
@@ -725,10 +713,8 @@
         </button>
       </div>
 
-      <!-- Container Hasil Unduhan -->
       <div id="result"></div>
 
-      <!-- Developer Badge -->
       <div class="neo-footer">
         <div class="dev-badge">
           <i class="fa-solid fa-crown"></i>
@@ -738,7 +724,6 @@
       </div>
     </div>
 
-    <!-- Fitur Highlight Grid -->
     <div class="feature-grid">
       <div class="feature-box">
         <i class="fa-solid fa-bolt"></i>
@@ -757,7 +742,6 @@
       </div>
     </div>
 
-    <!-- Panduan Cara Penggunaan (Bimbingan Web) -->
     <div class="guide-card">
       <div class="section-heading">
         <i class="fa-solid fa-book-open"></i>
@@ -788,7 +772,6 @@
       </div>
     </div>
 
-    <!-- FAQ & Info Kemudahan -->
     <div class="info-card">
       <div class="section-heading">
         <i class="fa-solid fa-circle-question"></i>
@@ -814,19 +797,18 @@
       </div>
     </div>
 
-    <!-- Live Server Status -->
     <div class="status-bar">
       <div class="pulse-dot"></div>
       <span>Status Server: <strong>Online & Siap Pakai</strong></span>
     </div>
 
     <div class="bottom-copyright">
-      TikTok Downloaders &bull; Fast & Clean Downloader ©2026
+      TikTok Royale &bull; Fast & Clean Downloader
     </div>
   </div>
 
   <script>
-    /* Anti-Pinch & Anti Double-Tap Zoom */
+    /* Pencegah Zoom Gestur Layar Sentuh */
     document.addEventListener('gesturestart', e => e.preventDefault());[span_0](start_span)[span_0](end_span)
     document.addEventListener('gesturechange', e => e.preventDefault());[span_1](start_span)[span_1](end_span)
     document.addEventListener('gestureend', e => e.preventDefault());[span_2](start_span)[span_2](end_span)
@@ -841,14 +823,12 @@
       lastTouchEnd = now;
     }, { passive: false });
 
-    /* State Management */
     let currentMedia = {
       videoUrl: '',
       musicUrl: '',
       title: ''
     };
 
-    /* Theme Switcher */
     function initTheme() {
       const savedTheme = localStorage.getItem('app_theme') || 'dark';
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -879,7 +859,46 @@
 
     initTheme();
 
-    /* Download Logic */
+    /* Engine Fetcher dengan Multi-Proxy Fallback */
+    async function fetchTikTokData(targetUrl) {
+      const targetApi = `https://www.tikwm.com/api/?url=${encodeURIComponent(targetUrl)}`;
+      
+      // Jalur 1: Direct Fetch dengan No-Referrer
+      try {
+        const response = await fetch(targetApi, {
+          method: 'GET',
+          referrerPolicy: 'no-referrer',
+          headers: { 'Accept': 'application/json' }
+        });
+        const json = await response.json();
+        if (json && json.data) return json.data;
+      } catch (err) {
+        console.warn("Direct fetch diblokir CORS, mencoba jalur relay proxy 1...");
+      }
+
+      // Jalur 2: Proxy Relay 1 (corsproxy.io)
+      try {
+        const proxyUrl = `https://corsproxy.io/?url=${encodeURIComponent(targetApi)}`;
+        const response = await fetch(proxyUrl);
+        const json = await response.json();
+        if (json && json.data) return json.data;
+      } catch (err) {
+        console.warn("Relay proxy 1 gagal, mencoba jalur relay proxy 2...");
+      }
+
+      // Jalur 3: Proxy Relay 2 (allorigins)
+      try {
+        const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetApi)}`;
+        const response = await fetch(proxyUrl);
+        const json = await response.json();
+        if (json && json.data) return json.data;
+      } catch (err) {
+        console.error("Semua jalur proxy gagal:", err);
+      }
+
+      return null;
+    }
+
     async function getTiktok() {
       const input = document.getElementById("tiktokUrl");
       const result = document.getElementById("result");
@@ -896,28 +915,25 @@
       result.innerHTML = `
         <div class="status-box loading">
           <i class="fa-solid fa-spinner fa-spin"></i>
-          <span>Sedang mengambil video...</span>
+          <span>Menghubungkan ke API...</span>
         </div>
       `;
 
       try {
-        const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
-        const response = await fetch(apiUrl);
-        const json = await response.json();
+        const data = await fetchTikTokData(url);
 
-        if (!json || json.code !== 0 || !json.data) {
+        if (!data) {
           result.innerHTML = `
             <div class="status-box error">
               <i class="fa-solid fa-triangle-exclamation"></i>
-              <span>Gagal! Pastikan video bersifat publik & link valid.</span>
+              <span>Gagal! Pastikan video bersifat publik & tautan benar.</span>
             </div>
           `;
           btnProcess.disabled = false;
           return;
         }
 
-        const data = json.data;
-        const videoTitle = data.title || 'Video TikTok Downloaders';
+        const videoTitle = data.title || 'Video TikTok Royale';
 
         currentMedia.videoUrl = data.play || data.wmplay || '';
         currentMedia.musicUrl = data.music || '';
