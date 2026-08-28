@@ -1,254 +1,863 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>TikTok Downloader Royale - MP3 & MP4 Tanpa Watermark</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TikTok Downloader Royale - MP3 & MP4 Tanpa Watermark</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-<style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  <style>
+    /* ========================================================
+       1. COLOR VARIABLES (LIGHT & DARK NEOBRUTALISM PRO)
+       ======================================================== */
+    :root {
+      --bg-color: #0E0E12;
+      --bg-dot: #262633;
+      --card-bg: #181820;
+      --card-inner: #121217;
+      --text-color: #FFFFFF;
+      --text-muted: #A0A0B5;
+      --border-color: #000000;
+      --shadow-color: #000000;
+      
+      --primary-yellow: #FFE600;
+      --accent-cyan: #00F0FF;
+      --accent-pink: #FF3366;
+      --accent-green: #00E676;
+      --accent-purple: #9D4EDD;
+      
+      --border-thick: 3px;
+      --shadow-size: 5px;
+    }
 
-  html, body {
-    width: 100%;
-    height: 100vh;
-    touch-action: manipulation;
-    overscroll-behavior: contain;
-    overflow: hidden;
-    font-family: 'Poppins', sans-serif;
-    background: radial-gradient(circle at 50% 20%, #06142e, #01010a 90%);
-    color: #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
+    [data-theme="light"] {
+      --bg-color: #FFFDF0;
+      --bg-dot: #121212;
+      --card-bg: #FFFFFF;
+      --card-inner: #F5F5F7;
+      --text-color: #121212;
+      --text-muted: #555555;
+      --border-color: #121212;
+      --shadow-color: #121212;
+      
+      --primary-yellow: #FFE600;
+      --accent-cyan: #00F0FF;
+      --accent-pink: #FF477E;
+      --accent-green: #10B981;
+      --accent-purple: #8B5CF6;
+    }
 
-  body::before {
-    content: "";
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(45deg, rgba(0,255,255,0.03) 0px, rgba(0,255,255,0.03) 1px, transparent 2px, transparent 4px);
-    animation: moveGrid 10s linear infinite;
-    z-index: 0;
-    pointer-events: none;
-  }
+    /* ========================================================
+       2. RESET & BASE LAYOUT (ANTI-ZOOM & SCROLLABLE)
+       ======================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
 
-  @keyframes moveGrid {
-    from { background-position: 0 0; }
-    to { background-position: 200px 400px; }
-  }
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-color);
+      background-image: radial-gradient(var(--bg-dot) 1.5px, transparent 1.5px);
+      background-size: 20px 20px;
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 16px 12px 40px;
+      overflow-x: hidden;
+      touch-action: pan-y;
+      -webkit-text-size-adjust: 100%;
+    }
 
-  .center-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-    width: 100%;
-    max-width: 450px;
-    padding: 20px;
-  }
+    .main-wrapper {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
 
-  h1 {
-    font-size: 30px;
-    color: #00eaff;
-    text-shadow: 0 0 15px #00eaff, 0 0 30px #0077ff;
-    letter-spacing: 1px;
-    animation: glowText 2.5s infinite alternate;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
+    /* ========================================================
+       3. RUNNING MARQUEE
+       ======================================================== */
+    .neo-marquee {
+      width: 100%;
+      background: var(--primary-yellow);
+      color: #000000;
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 12px;
+      padding: 8px 0;
+      overflow: hidden;
+      box-shadow: 4px 4px 0px var(--shadow-color);
+      font-weight: 900;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      white-space: nowrap;
+      user-select: none;
+    }
 
-  @keyframes glowText {
-    from { text-shadow: 0 0 15px #00eaff, 0 0 25px #0077ff; }
-    to { text-shadow: 0 0 25px #8f00ff, 0 0 45px #0077ff; }
-  }
+    .marquee-track {
+      display: inline-flex;
+      gap: 20px;
+      animation: marquee 14s linear infinite;
+    }
 
-  .container {
-    background: rgba(15, 20, 40, 0.8);
-    padding: 30px;
-    border-radius: 20px;
-    box-shadow: 0 0 40px rgba(0,255,255,0.15), inset 0 0 25px rgba(0,0,255,0.15);
-    width: 100%;
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(0,255,255,0.2);
-  }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
 
-  input {
-    width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid rgba(0,255,255,0.4);
-    margin-bottom: 18px;
-    outline: none;
-    font-size: 15px;
-    text-align: center;
-    background: rgba(0,0,0,0.35);
-    color: #00eaff;
-    transition: 0.3s;
-  }
+    /* ========================================================
+       4. TOP CONTROLS & HEADER
+       ======================================================== */
+    .top-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2px;
+    }
 
-  input:focus {
-    box-shadow: 0 0 12px #00eaff;
-  }
+    .top-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-pink);
+      color: #FFFFFF;
+      font-weight: 900;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 6px 12px;
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 50px;
+      box-shadow: 3px 3px 0px var(--shadow-color);
+    }
 
-  button {
-    background: linear-gradient(90deg, #0077ff, #8f00ff);
-    border: none;
-    padding: 12px 28px;
-    border-radius: 12px;
-    color: #fff;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    margin: 6px;
-    box-shadow: 0 0 15px rgba(0,255,255,0.2);
-  }
+    .theme-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--accent-cyan);
+      color: #000000;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 11px;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 10px;
+      box-shadow: 3px 3px 0px var(--shadow-color);
+      cursor: pointer;
+    }
 
-  button:hover {
-    transform: scale(1.08);
-    box-shadow: 0 0 25px #00eaff, 0 0 40px #8f00ff;
-  }
+    .theme-toggle-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px var(--shadow-color);
+    }
 
-  #result {
-    margin-top: 25px;
-  }
+    .header-title {
+      font-size: 30px;
+      font-weight: 900;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      color: var(--text-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
 
-  .download-links button {
-    display: inline-block;
-    margin: 10px;
-    padding: 11px 20px;
-    background: linear-gradient(135deg, #8f00ff, #0077ff);
-    color: white;
-    border-radius: 12px;
-    border: none;
-    font-weight: bold;
-    transition: 0.3s;
-  }
+    .header-title span {
+      background: var(--accent-pink);
+      color: #FFFFFF;
+      padding: 3px 10px;
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 10px;
+      box-shadow: 3px 3px 0px var(--shadow-color);
+      transform: rotate(-1.5deg);
+    }
 
-  .download-links button:hover {
-    transform: scale(1.06);
-    box-shadow: 0 0 12px #0077ff, 0 0 30px #8f00ff;
-  }
+    /* ========================================================
+       5. MAIN CARD & INPUTS
+       ======================================================== */
+    .neo-card {
+      width: 100%;
+      background: var(--card-bg);
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 20px;
+      padding: 22px 18px;
+      box-shadow: var(--shadow-size) var(--shadow-size) 0px var(--shadow-color);
+    }
 
-  .loading {
-    font-size: 16px;
-    margin-top: 12px;
-    color: #00eaff;
-    animation: pulse 1.2s infinite;
-  }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+      text-align: left;
+    }
 
-  @keyframes pulse {
-    0% { opacity: 0.3; }
-    50% { opacity: 1; }
-    100% { opacity: 0.3; }
-  }
+    .input-label {
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-color);
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
-  .footer {
-    margin-top: 25px;
-    text-align: center;
-    color: #8a8a8a;
-    font-size: 13px;
-  }
+    .neo-input {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-color);
+      background: var(--card-inner);
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 3px 3px 0px var(--shadow-color);
+      outline: none;
+    }
 
-  .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 18px;
-    margin-top: 15px;
-  }
+    .neo-input:focus {
+      box-shadow: 5px 5px 0px var(--shadow-color);
+      transform: translate(-1px, -1px);
+    }
 
-  .social-links a {
-    text-decoration: none;
-    font-size: 23px;
-    transition: 0.3s;
-  }
+    .neo-input::placeholder {
+      color: var(--text-muted);
+      font-weight: 600;
+    }
 
-  .social-links a:hover {
-    transform: scale(1.2);
-    filter: drop-shadow(0 0 10px #00eaff);
-  }
+    .button-group {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 10px;
+    }
 
-  .social-links .fa-whatsapp { color: #25D366; }
-  .social-links .fa-tiktok { color: #00f2ea; }
-  .social-links .fa-instagram { color: #e4405f; }
+    .neo-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 13px 14px;
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 12px;
+      box-shadow: 3px 3px 0px var(--shadow-color);
+      cursor: pointer;
+      color: #000000;
+      user-select: none;
+    }
 
-  .developer {
-    margin-top: 20px;
-    font-size: 15px;
-    color: #00eaff;
-    font-weight: 600;
-    text-shadow: 0 0 10px #00eaff, 0 0 20px #0077ff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
+    .neo-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0px var(--shadow-color);
+    }
 
-  .developer i.fa-crown {
-    color: gold;
-    font-size: 16px;
-  }
-</style>
+    .neo-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px var(--shadow-color);
+    }
+
+    .btn-process {
+      background: var(--primary-yellow);
+    }
+
+    .btn-reset {
+      background: #FFFFFF;
+      color: #000000;
+    }
+
+    /* Result State */
+    .status-box {
+      margin-top: 14px;
+      padding: 12px;
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 3px 3px 0px var(--shadow-color);
+      animation: popIn 0.2s ease-out;
+    }
+
+    .status-box.loading {
+      background: var(--accent-cyan);
+      color: #000000;
+    }
+
+    .status-box.error {
+      background: var(--accent-pink);
+      color: #FFFFFF;
+    }
+
+    .result-container {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: var(--border-thick) dashed var(--border-color);
+      animation: popIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .preview-card {
+      background: var(--card-inner);
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 14px;
+      padding: 10px;
+      box-shadow: 3px 3px 0px var(--shadow-color);
+      margin-bottom: 14px;
+    }
+
+    .cover-wrapper {
+      position: relative;
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid var(--border-color);
+      margin-bottom: 8px;
+    }
+
+    .cover-img {
+      width: 100%;
+      max-height: 240px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .video-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-align: left;
+      line-height: 1.4;
+      color: var(--text-color);
+      background: var(--card-bg);
+      padding: 8px 10px;
+      border: 2px solid var(--border-color);
+      border-radius: 8px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .download-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .btn-mp4 {
+      background: var(--accent-green);
+      width: 100%;
+    }
+
+    .btn-mp3 {
+      background: var(--accent-purple);
+      color: #FFFFFF;
+      width: 100%;
+    }
+
+    .neo-footer {
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: var(--border-thick) solid var(--border-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .dev-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--card-inner);
+      color: var(--text-color);
+      border: var(--border-thick) solid var(--border-color);
+      padding: 7px 16px;
+      border-radius: 50px;
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: 3px 3px 0px var(--shadow-color);
+    }
+
+    .dev-badge i {
+      color: #EAB308;
+      font-size: 14px;
+    }
+
+    /* ========================================================
+       6. FEATURE HIGHLIGHTS & INFO SECTION
+       ======================================================== */
+    .feature-grid {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .feature-box {
+      background: var(--card-bg);
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 14px;
+      padding: 12px 6px;
+      text-align: center;
+      box-shadow: 3px 3px 0px var(--shadow-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .feature-box i {
+      font-size: 20px;
+      margin-bottom: 2px;
+    }
+
+    .feature-box:nth-child(1) i { color: var(--primary-yellow); }
+    .feature-box:nth-child(2) i { color: var(--accent-cyan); }
+    .feature-box:nth-child(3) i { color: var(--accent-green); }
+
+    .feature-title {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 1.2;
+    }
+
+    .feature-desc {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .guide-card {
+      width: 100%;
+      background: var(--card-bg);
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 18px;
+      padding: 20px 18px;
+      box-shadow: var(--shadow-size) var(--shadow-size) 0px var(--shadow-color);
+    }
+
+    .section-heading {
+      font-size: 15px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .section-heading i {
+      color: var(--primary-yellow);
+    }
+
+    .step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--card-inner);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 2px 2px 0px var(--shadow-color);
+    }
+
+    .step-number {
+      width: 28px;
+      height: 28px;
+      min-width: 28px;
+      background: var(--accent-pink);
+      color: #FFFFFF;
+      font-weight: 900;
+      font-size: 12px;
+      border-radius: 8px;
+      border: 2px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 2px 2px 0px var(--shadow-color);
+    }
+
+    .step-item:nth-child(2) .step-number {
+      background: var(--accent-cyan);
+      color: #000000;
+    }
+
+    .step-item:nth-child(3) .step-number {
+      background: var(--accent-green);
+      color: #000000;
+    }
+
+    .step-content {
+      text-align: left;
+    }
+
+    .step-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-color);
+    }
+
+    .step-sub {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .info-card {
+      width: 100%;
+      background: var(--card-bg);
+      border: var(--border-thick) solid var(--border-color);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow-size) var(--shadow-size) 0px var(--shadow-color);
+      text-align: left;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .faq-box {
+      background: var(--card-inner);
+      border: 2px solid var(--border-color);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+
+    .faq-q {
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-color);
+      margin-bottom: 4px;
+    }
+
+    .faq-q i {
+      color: var(--accent-cyan);
+      font-size: 11px;
+    }
+
+    .faq-a {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      line-height: 1.4;
+      padding-left: 17px;
+    }
+
+    .status-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--card-inner);
+      color: var(--text-color);
+      border: 2px solid var(--border-color);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 700;
+      box-shadow: 2px 2px 0px var(--shadow-color);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-green);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7);
+      animation: pulseGreen 1.8s infinite;
+    }
+
+    @keyframes pulseGreen {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 230, 118, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+    }
+
+    .bottom-copyright {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="center-wrapper">
-    <h1>TikTok Downloader</h1>
-
-    <div class="container">
-      <input id="tiktokUrl" type="text" placeholder=" Tempel link TikTok di sini...">
-      <div>
-        <button onclick="getTiktok()"><i class="fa-solid fa-wand-magic-sparkles"></i> Proses</button>
-        <button onclick="resetAll()"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+  <div class="main-wrapper">
+    <!-- Marquee -->
+    <div class="neo-marquee">
+      <div class="marquee-track">
+        <span>⚡ FAST DOWNLOAD</span>
+        <span>✦</span>
+        <span>NO WATERMARK HD</span>
+        <span>✦</span>
+        <span>SUPPORT MP3 & MP4</span>
+        <span>✦</span>
+        <span>100% FREE & SECURE</span>
+        <span>✦</span>
+        <span>⚡ FAST DOWNLOAD</span>
+        <span>✦</span>
+        <span>NO WATERMARK HD</span>
+        <span>✦</span>
+        <span>SUPPORT MP3 & MP4</span>
+        <span>✦</span>
+        <span>100% FREE & SECURE</span>
+        <span>✦</span>
       </div>
+    </div>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+      <div class="top-badge">
+        <i class="fa-solid fa-bolt"></i> Downloader Royale
+      </div>
+      <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema">
+        <i class="fa-solid fa-sun" id="themeIcon"></i>
+        <span id="themeLabel">Light Mode</span>
+      </button>
+    </div>
+
+    <h1 class="header-title">
+      TikTok <span>Royale</span>
+    </h1>
+
+    <!-- Main Input Card -->
+    <div class="neo-card">
+      <div class="input-group">
+        <label class="input-label" for="tiktokUrl">
+          <i class="fa-solid fa-link"></i> Tempel URL TikTok:
+        </label>
+        <input 
+          id="tiktokUrl" 
+          class="neo-input" 
+          type="text" 
+          placeholder="https://www.tiktok.com/@..." 
+          autocomplete="off"
+        >
+      </div>
+
+      <div class="button-group">
+        <button class="neo-btn btn-process" onclick="getTiktok()">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Proses
+        </button>
+        <button class="neo-btn btn-reset" onclick="resetAll()">
+          <i class="fa-solid fa-rotate-left"></i> Reset
+        </button>
+      </div>
+
+      <!-- Hasil Render -->
       <div id="result"></div>
 
-      <div class="footer">
-        <div class="social-links">
-          <a href="https://whatsapp.com/channel/0029VbBPHdnEVccOS12cD225" target="_blank"><i class="fab fa-whatsapp"></i></a>
-          <a href="https://www.tiktok.com/@restu6699" target="_blank"><i class="fab fa-tiktok"></i></a>
-          <a href="https://www.instagram.com/restuskibidi?igsh=NXNrbzhpaDJhMjZp" target="_blank"><i class="fab fa-instagram"></i></a>
-        </div>
-        <div class="developer">
+      <!-- Developer Footer Sesuai Request -->
+      <div class="neo-footer">
+        <div class="dev-badge">
           <i class="fa-solid fa-crown"></i>
-          <span>Developer <strong>Restu</strong></span>
+          <span>Developer: <strong>R-GOD777</strong></span>
           <i class="fa-solid fa-crown"></i>
         </div>
       </div>
     </div>
+
+    <!-- Tambahan Ruang Kosong (Bimbingan, FAQ, dll) -->
+    <div class="feature-grid">
+      <div class="feature-box">
+        <i class="fa-solid fa-bolt"></i>
+        <div class="feature-title">Super Cepat</div>
+        <div class="feature-desc">Konversi Instan</div>
+      </div>
+      <div class="feature-box">
+        <i class="fa-solid fa-video"></i>
+        <div class="feature-title">No Watermark</div>
+        <div class="feature-desc">Kualitas HD Asli</div>
+      </div>
+      <div class="feature-box">
+        <i class="fa-solid fa-music"></i>
+        <div class="feature-title">Audio MP3</div>
+        <div class="feature-desc">Suara Jernih</div>
+      </div>
+    </div>
+
+    <div class="guide-card">
+      <div class="section-heading">
+        <i class="fa-solid fa-book-open"></i>
+        <span>Cara Mudah Mengunduh</span>
+      </div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Salin Link Video</div>
+            <div class="step-sub">Buka TikTok, klik Bagikan > Salin Tautan video.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Tempel & Proses</div>
+            <div class="step-sub">Tempel tautan di kotak input lalu klik tombol Proses.</div>
+          </div>
+        </div>
+        <div class="step-item">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Simpan MP4 / MP3</div>
+            <div class="step-sub">Pilih unduh video tanpa watermark atau audio saja.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <div class="section-heading">
+        <i class="fa-solid fa-circle-question"></i>
+        <span>Keunggulan & Info</span>
+      </div>
+      <div class="faq-list">
+        <div class="faq-box">
+          <div class="faq-q">
+            <i class="fa-solid fa-check"></i> 100% Gratis & Tanpa Iklan
+          </div>
+          <div class="faq-a">
+            Unduh sebanyak mungkin video tanpa perlu registrasi atau langganan akun.
+          </div>
+        </div>
+        <div class="faq-box">
+          <div class="faq-q">
+            <i class="fa-solid fa-shield-halved"></i> Aman & Privasi Terjaga
+          </div>
+          <div class="faq-a">
+            Tautan diproses langsung tanpa menyimpan riwayat pencarian atau data pribadi.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="status-bar">
+      <div class="pulse-dot"></div>
+      <span>Status Server: <strong>Online & Siap Pakai</strong></span>
+    </div>
+
+    <div class="bottom-copyright">
+      TikTok Royale &bull; Fast & Clean Downloader
+    </div>
   </div>
 
   <script>
+    /* 1. MENTAHAN AWAL: Anti Zoom */
     document.addEventListener('gesturestart', e => e.preventDefault());
     document.addEventListener('gesturechange', e => e.preventDefault());
     document.addEventListener('gestureend', e => e.preventDefault());
     document.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
 
+    /* 2. LOGIKA THEME SWITCHER */
+    function initTheme() {
+      const savedTheme = localStorage.getItem('app_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      updateThemeButtonUI(savedTheme);
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('app_theme', newTheme);
+      updateThemeButtonUI(newTheme);
+    }
+
+    function updateThemeButtonUI(theme) {
+      const icon = document.getElementById('themeIcon');
+      const label = document.getElementById('themeLabel');
+      
+      if (theme === 'dark') {
+        icon.className = 'fa-solid fa-sun';
+        label.textContent = 'Light Mode';
+      } else {
+        icon.className = 'fa-solid fa-moon';
+        label.textContent = 'Dark Mode';
+      }
+    }
+    initTheme();
+
+    /* 3. MENTAHAN AWAL: Logika API Asli Tanpa Modifikasi Fetch */
     async function getTiktok() {
       const url = document.getElementById("tiktokUrl").value.trim();
       const result = document.getElementById("result");
       if (!url) return alert("Masukkan link TikTok dulu!");
 
-      result.innerHTML = '<p class="loading"><i class="fa-solid fa-spinner fa-spin"></i> Download sedang diproses...</p>';
+      // Tampilan loading disesuaikan CSS Neobrutalism
+      result.innerHTML = `
+        <div class="status-box loading">
+          <i class="fa-solid fa-spinner fa-spin"></i>
+          <span>Download sedang diproses...</span>
+        </div>
+      `;
 
       try {
+        // PERHATIAN: Baris fetch di bawah ini adalah 100% murni kode mentahan awal
         const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
         const response = await fetch(apiUrl);
         const json = await response.json();
 
         if (!json.data) {
-          result.innerHTML = '<p>Gagal mengambil data! Pastikan link TikTok benar.</p>';
+          result.innerHTML = `
+            <div class="status-box error">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <span>Gagal mengambil data! Pastikan link TikTok benar.</span>
+            </div>
+          `;
           return;
         }
 
@@ -257,23 +866,44 @@
         const musicUrl = data.music;
         const cover = data.cover;
         const title = data.title || 'Video TikTok';
+        
+        // Membersihkan tanda kutip dari judul agar tidak error di tombol HTML
+        const safeTitle = title.replace(/['"]/g, '');
 
+        // Tampilan render hasil disesuaikan CSS Neobrutalism
         result.innerHTML = `
-          <div class="fade-in">
-            <p><strong> Judul:</strong> ${title}</p>
-            <img src="${cover}" width="100%" style="border-radius:10px; box-shadow:0 0 25px rgba(0,255,255,0.3);">
-            <div class="download-links">
-              <button onclick="downloadFile('${videoUrl}', '${title}.mp4')"><i class="fa-solid fa-video"></i> MP4 (No Watermark)</button>
-              <button onclick="downloadFile('${musicUrl}', '${title}.mp3')"><i class="fa-solid fa-music"></i> MP3</button>
+          <div class="result-container">
+            <div class="preview-card">
+              <div class="cover-wrapper">
+                <img src="${cover}" alt="Thumbnail Video" class="cover-img">
+              </div>
+              <div class="video-title">
+                ${title}
+              </div>
+            </div>
+
+            <div class="download-grid">
+              <button class="neo-btn btn-mp4" onclick="downloadFile('${videoUrl}', '${safeTitle}.mp4')">
+                <i class="fa-solid fa-video"></i> MP4 (No Watermark)
+              </button>
+              <button class="neo-btn btn-mp3" onclick="downloadFile('${musicUrl}', '${safeTitle}.mp3')">
+                <i class="fa-solid fa-music"></i> MP3
+              </button>
             </div>
           </div>
         `;
       } catch (e) {
         console.error(e);
-        result.innerHTML = '<p>Terjadi kesalahan. Coba lagi nanti.</p>';
+        result.innerHTML = `
+          <div class="status-box error">
+            <i class="fa-solid fa-circle-xmark"></i>
+            <span>Terjadi kesalahan. Coba lagi nanti.</span>
+          </div>
+        `;
       }
     }
 
+    /* 4. MENTAHAN AWAL: Fungsi Reset & Download File */
     function resetAll() {
       document.getElementById("tiktokUrl").value = "";
       document.getElementById("result").innerHTML = "";
@@ -290,3 +920,4 @@
   </script>
 </body>
 </html>
+
