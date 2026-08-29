@@ -2,8 +2,10 @@
 <html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>TikTok Downloader Royale - MP3 & MP4 Tanpa Watermark</title>
+  <!-- Perbaikan 1: Mengizinkan zoom untuk aksesibilitas, menghapus user-scalable=no -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TikFetch - Unduh Video TikTok Tanpa Watermark & Audio MP3 Gratis">
+  <title>TikFetch - Downloader MP3 & MP4 Tanpa Watermark</title>
 
   <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,14 +57,13 @@
     }
 
     /* ========================================================
-       2. RESET & BASE LAYOUT (ANTI-ZOOM & SCROLLABLE)
+       2. RESET & BASE LAYOUT
        ======================================================== */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
       transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     }
 
@@ -80,7 +81,6 @@
       justify-content: flex-start;
       padding: 16px 12px 40px;
       overflow-x: hidden;
-      touch-action: pan-y;
       -webkit-text-size-adjust: 100%;
     }
 
@@ -174,7 +174,7 @@
     }
 
     .header-title {
-      font-size: 30px;
+      font-size: 32px;
       font-weight: 900;
       text-transform: uppercase;
       text-align: center;
@@ -185,16 +185,17 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      margin: 8px 0;
     }
 
     .header-title span {
       background: var(--accent-pink);
       color: #FFFFFF;
-      padding: 3px 10px;
+      padding: 3px 12px;
       border: var(--border-thick) solid var(--border-color);
       border-radius: 10px;
       box-shadow: 3px 3px 0px var(--shadow-color);
-      transform: rotate(-1.5deg);
+      transform: rotate(-2deg);
     }
 
     /* ========================================================
@@ -212,8 +213,8 @@
     .input-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-bottom: 14px;
+      gap: 8px;
+      margin-bottom: 16px;
       text-align: left;
     }
 
@@ -243,7 +244,8 @@
     }
 
     .neo-input:focus {
-      box-shadow: 5px 5px 0px var(--shadow-color);
+      box-shadow: 5px 5px 0px var(--accent-pink);
+      border-color: var(--accent-pink);
       transform: translate(-1px, -1px);
     }
 
@@ -277,26 +279,27 @@
       user-select: none;
     }
 
-    .neo-btn:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 5px 5px 0px var(--shadow-color);
-    }
-
-    .neo-btn:active {
+    .neo-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
       transform: translate(2px, 2px);
       box-shadow: 1px 1px 0px var(--shadow-color);
     }
 
-    .btn-process {
-      background: var(--primary-yellow);
+    .neo-btn:hover:not(:disabled) {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0px var(--shadow-color);
     }
 
-    .btn-reset {
-      background: #FFFFFF;
-      color: #000000;
+    .neo-btn:active:not(:disabled) {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px var(--shadow-color);
     }
 
-    /* Result & Status States (Pengganti Alert) */
+    .btn-process { background: var(--primary-yellow); }
+    .btn-reset { background: #FFFFFF; color: #000000; }
+
+    /* Result & Status States */
     .status-box {
       margin-top: 14px;
       padding: 14px;
@@ -307,20 +310,16 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      text-align: center;
       gap: 10px;
       box-shadow: 3px 3px 0px var(--shadow-color);
       animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .status-box.loading {
-      background: var(--accent-cyan);
-      color: #000000;
-    }
-
-    .status-box.error {
-      background: var(--accent-pink);
-      color: #FFFFFF;
-    }
+    .status-box.loading { background: var(--accent-cyan); color: #000000; }
+    .status-box.error { background: var(--accent-pink); color: #FFFFFF; }
+    .status-box.success { background: var(--accent-green); color: #000000; }
+    .status-box.warning { background: var(--primary-yellow); color: #000000; }
 
     .result-container {
       margin-top: 16px;
@@ -357,6 +356,7 @@
       max-height: 240px;
       object-fit: cover;
       display: block;
+      background: var(--bg-color); /* Placeholder color */
     }
 
     .video-title {
@@ -378,19 +378,11 @@
     .download-grid {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
-    .btn-mp4 {
-      background: var(--accent-green);
-      width: 100%;
-    }
-
-    .btn-mp3 {
-      background: var(--accent-purple);
-      color: #FFFFFF;
-      width: 100%;
-    }
+    .btn-mp4 { background: var(--accent-green); width: 100%; }
+    .btn-mp3 { background: var(--accent-purple); color: #FFFFFF; width: 100%; }
 
     .neo-footer {
       margin-top: 18px;
@@ -415,13 +407,10 @@
       box-shadow: 3px 3px 0px var(--shadow-color);
     }
 
-    .dev-badge i {
-      color: #EAB308;
-      font-size: 14px;
-    }
+    .dev-badge i { color: var(--accent-cyan); font-size: 14px; }
 
     /* ========================================================
-       6. FEATURE HIGHLIGHTS, GUIDES, & FAQ (PENGISI RUANG BAWAH)
+       6. FEATURE HIGHLIGHTS, GUIDES, & FAQ
        ======================================================== */
     .feature-grid {
       width: 100%;
@@ -443,11 +432,7 @@
       gap: 4px;
     }
 
-    .feature-box i {
-      font-size: 20px;
-      margin-bottom: 2px;
-    }
-
+    .feature-box i { font-size: 20px; margin-bottom: 2px; }
     .feature-box:nth-child(1) i { color: var(--primary-yellow); }
     .feature-box:nth-child(2) i { color: var(--accent-cyan); }
     .feature-box:nth-child(3) i { color: var(--accent-green); }
@@ -465,7 +450,7 @@
       color: var(--text-muted);
     }
 
-    .guide-card {
+    .guide-card, .info-card {
       width: 100%;
       background: var(--card-bg);
       border: var(--border-thick) solid var(--border-color);
@@ -485,9 +470,7 @@
       margin-bottom: 14px;
     }
 
-    .section-heading i {
-      color: var(--primary-yellow);
-    }
+    .section-heading i { color: var(--primary-yellow); }
 
     .step-list {
       display: flex;
@@ -522,41 +505,12 @@
       box-shadow: 2px 2px 0px var(--shadow-color);
     }
 
-    .step-item:nth-child(2) .step-number {
-      background: var(--accent-cyan);
-      color: #000000;
-    }
+    .step-item:nth-child(2) .step-number { background: var(--accent-cyan); color: #000000; }
+    .step-item:nth-child(3) .step-number { background: var(--accent-green); color: #000000; }
 
-    .step-item:nth-child(3) .step-number {
-      background: var(--accent-green);
-      color: #000000;
-    }
-
-    .step-content {
-      text-align: left;
-    }
-
-    .step-title {
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--text-color);
-    }
-
-    .step-sub {
-      font-size: 10px;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    .info-card {
-      width: 100%;
-      background: var(--card-bg);
-      border: var(--border-thick) solid var(--border-color);
-      border-radius: 18px;
-      padding: 18px;
-      box-shadow: var(--shadow-size) var(--shadow-size) 0px var(--shadow-color);
-      text-align: left;
-    }
+    .step-content { text-align: left; }
+    .step-title { font-size: 12px; font-weight: 800; color: var(--text-color); }
+    .step-sub { font-size: 10px; font-weight: 600; color: var(--text-muted); line-height: 1.3; }
 
     .faq-list {
       display: flex;
@@ -581,18 +535,8 @@
       margin-bottom: 4px;
     }
 
-    .faq-q i {
-      color: var(--accent-cyan);
-      font-size: 11px;
-    }
-
-    .faq-a {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-muted);
-      line-height: 1.4;
-      padding-left: 17px;
-    }
+    .faq-q i { color: var(--accent-cyan); font-size: 11px; }
+    .faq-a { font-size: 11px; font-weight: 600; color: var(--text-muted); line-height: 1.4; padding-left: 17px; }
 
     .status-bar {
       display: inline-flex;
@@ -639,73 +583,70 @@
     <!-- Marquee -->
     <div class="neo-marquee">
       <div class="marquee-track">
-        <span>⚡ FAST DOWNLOAD</span>
-        <span>✦</span>
-        <span>NO WATERMARK HD</span>
-        <span>✦</span>
-        <span>SUPPORT MP3 & MP4</span>
-        <span>✦</span>
-        <span>100% FREE & SECURE</span>
-        <span>✦</span>
-        <span>⚡ FAST DOWNLOAD</span>
-        <span>✦</span>
-        <span>NO WATERMARK HD</span>
-        <span>✦</span>
-        <span>SUPPORT MP3 & MP4</span>
-        <span>✦</span>
-        <span>100% FREE & SECURE</span>
-        <span>✦</span>
+        <span>⚡ FAST DOWNLOAD</span><span>✦</span>
+        <span>NO WATERMARK HD</span><span>✦</span>
+        <span>SUPPORT MP3 & MP4</span><span>✦</span>
+        <span>100% FREE & SECURE</span><span>✦</span>
+        <span>⚡ FAST DOWNLOAD</span><span>✦</span>
+        <span>NO WATERMARK HD</span><span>✦</span>
+        <span>SUPPORT MP3 & MP4</span><span>✦</span>
+        <span>100% FREE & SECURE</span><span>✦</span>
       </div>
     </div>
 
     <!-- Top Bar -->
     <div class="top-bar">
       <div class="top-badge">
-        <i class="fa-solid fa-bolt"></i> Downloader Royale
+        <i class="fa-solid fa-bolt"></i> TikFetch Utility
       </div>
-      <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" title="Ganti Tema">
+      <button class="theme-toggle-btn" onclick="toggleTheme()" id="themeBtn" aria-label="Ganti Tema">
         <i class="fa-solid fa-sun" id="themeIcon"></i>
         <span id="themeLabel">Light Mode</span>
       </button>
     </div>
 
     <h1 class="header-title">
-      TikTok <span>Royale</span>
+      TikTok <span>Fetch</span>
     </h1>
 
     <!-- Main Input Card -->
     <div class="neo-card">
-      <div class="input-group">
-        <label class="input-label" for="tiktokUrl">
-          <i class="fa-solid fa-link"></i> Tempel URL TikTok:
-        </label>
-        <input 
-          id="tiktokUrl" 
-          class="neo-input" 
-          type="text" 
-          placeholder="https://www.tiktok.com/@..." 
-          autocomplete="off"
-        >
-      </div>
+      <!-- Perbaikan 2: Form Native agar bisa tekan Enter di HP -->
+      <form id="downloadForm" onsubmit="getTiktok(event)">
+        <div class="input-group">
+          <label class="input-label" for="tiktokUrl">
+            <i class="fa-solid fa-link"></i> Tempel URL TikTok:
+          </label>
+          <input 
+            id="tiktokUrl" 
+            class="neo-input" 
+            type="url" 
+            placeholder="https://vt.tiktok.com/..." 
+            autocomplete="off"
+            required
+          >
+        </div>
 
-      <div class="button-group">
-        <button id="btnProcess" class="neo-btn btn-process" onclick="getTiktok()">
-          <i class="fa-solid fa-wand-magic-sparkles"></i> Proses
-        </button>
-        <button class="neo-btn btn-reset" onclick="resetAll()">
-          <i class="fa-solid fa-rotate-left"></i> Reset
-        </button>
-      </div>
+        <div class="button-group">
+          <button type="submit" id="btnProcess" class="neo-btn btn-process">
+            <i class="fa-solid fa-wand-magic-sparkles"></i> Proses
+          </button>
+          <button type="button" class="neo-btn btn-reset" onclick="resetAll()">
+            <i class="fa-solid fa-rotate-left"></i> Reset
+          </button>
+        </div>
+      </form>
 
-      <!-- Hasil Render & Notifikasi Inline (TANPA ALERT) -->
+      <!-- Tempat Render Hasil / Notifikasi -->
       <div id="result"></div>
+      <!-- Tempat Status Download -->
+      <div id="downloadStatus"></div>
 
       <!-- Developer Footer -->
       <div class="neo-footer">
         <div class="dev-badge">
-          <i class="fa-solid fa-crown"></i>
-          <span>Developer: <strong>R-GOD777</strong></span>
-          <i class="fa-solid fa-crown"></i>
+          <i class="fa-solid fa-code"></i>
+          <span>Developer: <strong>R-Dev Studio</strong></span>
         </div>
       </div>
     </div>
@@ -746,14 +687,14 @@
           <div class="step-number">2</div>
           <div class="step-content">
             <div class="step-title">Tempel & Proses</div>
-            <div class="step-sub">Tempel tautan di kotak input lalu klik tombol Proses.</div>
+            <div class="step-sub">Tempel tautan di atas lalu klik tombol Proses atau tekan Enter.</div>
           </div>
         </div>
         <div class="step-item">
           <div class="step-number">3</div>
           <div class="step-content">
             <div class="step-title">Simpan MP4 / MP3</div>
-            <div class="step-sub">Pilih unduh video tanpa watermark atau audio saja.</div>
+            <div class="step-sub">Pilih opsi unduh sesuai kebutuhan Anda.</div>
           </div>
         </div>
       </div>
@@ -769,17 +710,13 @@
           <div class="faq-q">
             <i class="fa-solid fa-check"></i> 100% Gratis & Tanpa Iklan
           </div>
-          <div class="faq-a">
-            Unduh sebanyak mungkin video tanpa perlu registrasi atau langganan akun.
-          </div>
+          <div class="faq-a">Unduh sebanyak mungkin video tanpa perlu registrasi atau langganan.</div>
         </div>
         <div class="faq-box">
           <div class="faq-q">
             <i class="fa-solid fa-shield-halved"></i> Aman & Privasi Terjaga
           </div>
-          <div class="faq-a">
-            Tautan diproses langsung tanpa menyimpan riwayat pencarian atau data pribadi.
-          </div>
+          <div class="faq-a">Tautan diproses langsung ke server tujuan tanpa menyimpan riwayat.</div>
         </div>
       </div>
     </div>
@@ -790,18 +727,14 @@
     </div>
 
     <div class="bottom-copyright">
-      TikTok Royale &bull; Fast & Clean Downloader
+      TikFetch &bull; Fast & Clean Downloader
     </div>
   </div>
 
   <script>
-    /* 1. ANTI ZOOM UNTUK HP */
-    document.addEventListener('gesturestart', e => e.preventDefault());
-    document.addEventListener('gesturechange', e => e.preventDefault());
-    document.addEventListener('gestureend', e => e.preventDefault());
-    document.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
-
-    /* 2. THEME SWITCHER */
+    /* ========================================================
+       1. THEME SWITCHER
+       ======================================================== */
     function initTheme() {
       const savedTheme = localStorage.getItem('app_theme') || 'dark';
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -829,36 +762,49 @@
         label.textContent = 'Dark Mode';
       }
     }
-    initTheme();
+    initTheme(); // Inisialisasi saat web dimuat
 
-    /* 3. API ASLI (TANPA ALERT BROWSER) */
-    async function getTiktok() {
+    /* ========================================================
+       2. FUNGSI UTAMA PENGAMBILAN DATA (API)
+       ======================================================== */
+    async function getTiktok(event) {
+      // Mencegah halaman reload saat form di-submit
+      if (event) event.preventDefault();
+
       const input = document.getElementById("tiktokUrl");
       const url = input.value.trim();
       const result = document.getElementById("result");
+      const dlStatus = document.getElementById("downloadStatus");
+      const btn = document.getElementById("btnProcess");
       
-      // ERROR INLINE (PENGGANTI ALERT)
-      if (!url) {
+      // Reset area status
+      result.innerHTML = "";
+      dlStatus.innerHTML = "";
+
+      // Validasi URL (Memastikan input adalah link TikTok)
+      if (!url || (!url.includes('tiktok.com') && !url.includes('douyin.com'))) {
         result.innerHTML = `
           <div class="status-box error">
             <i class="fa-solid fa-circle-exclamation" style="font-size: 16px;"></i>
-            <span>Hei! Masukkan link TikTok-nya dulu ya!</span>
+            <span>Tautan tidak valid! Masukkan link TikTok yang benar.</span>
           </div>
         `;
         input.focus();
         return;
       }
 
-      // LOADING STATE
+      // Perbaikan 5: Set tombol ke posisi Loading
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Memproses...`;
+      
       result.innerHTML = `
         <div class="status-box loading">
-          <i class="fa-solid fa-spinner fa-spin"></i>
-          <span>Download sedang diproses...</span>
+          <i class="fa-solid fa-magnifying-glass fa-bounce"></i>
+          <span>Mencari data video...</span>
         </div>
       `;
 
       try {
-        // MURNI FETCH API AWAL KAMU
         const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
         const response = await fetch(apiUrl);
         const json = await response.json();
@@ -867,9 +813,10 @@
           result.innerHTML = `
             <div class="status-box error">
               <i class="fa-solid fa-triangle-exclamation"></i>
-              <span>Gagal mengambil data! Pastikan link TikTok benar.</span>
+              <span>Gagal! Video mungkin private atau link salah.</span>
             </div>
           `;
+          resetButtonState(btn);
           return;
         }
 
@@ -879,15 +826,15 @@
         const cover = data.cover;
         const title = data.title || 'Video TikTok';
         
-        // Menghapus kutip dari judul untuk menghindari error pada atribut HTML
-        const safeTitle = title.replace(/['"]/g, '');
+        // Sanitasi judul untuk nama file
+        const safeTitle = title.replace(/[^a-zA-Z0-9 \-]/g, '').substring(0, 40) || 'tikfetch_video';
 
-        // RENDER HASIL VIDEO
+        // Render Hasil UI
         result.innerHTML = `
           <div class="result-container">
             <div class="preview-card">
               <div class="cover-wrapper">
-                <img src="${cover}" alt="Thumbnail Video" class="cover-img">
+                <img src="${cover}" alt="Thumbnail Video" class="cover-img" loading="lazy">
               </div>
               <div class="video-title">
                 ${title}
@@ -895,39 +842,102 @@
             </div>
 
             <div class="download-grid">
-              <button class="neo-btn btn-mp4" onclick="downloadFile('${videoUrl}', '${safeTitle}.mp4')">
-                <i class="fa-solid fa-video"></i> MP4 (No Watermark)
+              <button class="neo-btn btn-mp4" onclick="handleDownload('${videoUrl}', '${safeTitle}.mp4', 'MP4')">
+                <i class="fa-solid fa-video"></i> Unduh MP4 (Tanpa Watermark)
               </button>
-              <button class="neo-btn btn-mp3" onclick="downloadFile('${musicUrl}', '${safeTitle}.mp3')">
-                <i class="fa-solid fa-music"></i> MP3
+              <button class="neo-btn btn-mp3" onclick="handleDownload('${musicUrl}', '${safeTitle}.mp3', 'MP3')">
+                <i class="fa-solid fa-music"></i> Unduh Audio MP3
               </button>
             </div>
           </div>
         `;
       } catch (e) {
-        console.error(e);
+        console.error("API Fetch Error:", e);
         result.innerHTML = `
           <div class="status-box error">
-            <i class="fa-solid fa-circle-xmark"></i>
-            <span>Terjadi kesalahan jaringan. Coba lagi nanti.</span>
+            <i class="fa-solid fa-wifi"></i>
+            <span>Terjadi kesalahan koneksi server API. Coba sebentar lagi.</span>
+          </div>
+        `;
+      } finally {
+        // Kembalikan status tombol seperti semula
+        resetButtonState(btn);
+      }
+    }
+
+    function resetButtonState(btn) {
+      btn.disabled = false;
+      btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> Proses`;
+    }
+
+    /* ========================================================
+       3. FUNGSI DOWNLOAD CERDAS (Mengatasi Isu CORS / Tab Baru)
+       ======================================================== */
+    async function handleDownload(mediaUrl, filename, type) {
+      const dlStatus = document.getElementById("downloadStatus");
+      
+      // Tampilkan notifikasi sedang mencoba mengunduh
+      dlStatus.innerHTML = `
+        <div class="status-box loading">
+          <i class="fa-solid fa-circle-notch fa-spin"></i>
+          <span>Menyiapkan file ${type}...</span>
+        </div>
+      `;
+
+      try {
+        // Coba Fetch Blob secara background agar bisa 'force download' (Mencegah buka di tab baru)
+        const response = await fetch(mediaUrl);
+        if (!response.ok) throw new Error("CORS blocking atau Network Issue");
+        
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        
+        // Membersihkan memory
+        setTimeout(() => window.URL.revokeObjectURL(blobUrl), 100);
+
+        dlStatus.innerHTML = `
+          <div class="status-box success">
+            <i class="fa-solid fa-circle-check"></i>
+            <span>Berhasil! ${type} telah diunduh.</span>
+          </div>
+        `;
+
+      } catch (e) {
+        console.warn("Direct download diblokir CORS. Menggunakan fallback Tab Baru.", e);
+        // Fallback: Jika server asal melarang script mengambil blob (CORS limit), buka otomatis di Tab Baru.
+        
+        const fallbackAnchor = document.createElement('a');
+        fallbackAnchor.href = mediaUrl;
+        fallbackAnchor.target = '_blank'; // Paksa tab baru
+        fallbackAnchor.download = filename; 
+        document.body.appendChild(fallbackAnchor);
+        fallbackAnchor.click();
+        document.body.removeChild(fallbackAnchor);
+
+        dlStatus.innerHTML = `
+          <div class="status-box warning" style="flex-direction:column; gap:4px; padding:12px;">
+            <div><i class="fa-solid fa-triangle-exclamation"></i> File dibuka di tab baru!</div>
+            <div style="font-size:10px; font-weight:600;">(Klik titik tiga &#8942; atau tahan video untuk menyimpan ke galeri)</div>
           </div>
         `;
       }
     }
 
-    /* 4. FUNGSI RESET & DOWNLOAD ASLI */
+    /* ========================================================
+       4. FUNGSI RESET FORM
+       ======================================================== */
     function resetAll() {
       document.getElementById("tiktokUrl").value = "";
       document.getElementById("result").innerHTML = "";
-    }
-
-    function downloadFile(url, filename) {
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      document.getElementById("downloadStatus").innerHTML = "";
+      document.getElementById("tiktokUrl").focus();
     }
   </script>
 </body>
