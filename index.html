@@ -296,10 +296,10 @@
       color: #000000;
     }
 
-    /* Result State */
+    /* Result & Status States (Pengganti Alert) */
     .status-box {
       margin-top: 14px;
-      padding: 12px;
+      padding: 14px;
       border: var(--border-thick) solid var(--border-color);
       border-radius: 12px;
       font-weight: 800;
@@ -307,9 +307,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       box-shadow: 3px 3px 0px var(--shadow-color);
-      animation: popIn 0.2s ease-out;
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     .status-box.loading {
@@ -421,7 +421,7 @@
     }
 
     /* ========================================================
-       6. FEATURE HIGHLIGHTS & INFO SECTION
+       6. FEATURE HIGHLIGHTS, GUIDES, & FAQ (PENGISI RUANG BAWAH)
        ======================================================== */
     .feature-grid {
       width: 100%;
@@ -689,7 +689,7 @@
       </div>
 
       <div class="button-group">
-        <button class="neo-btn btn-process" onclick="getTiktok()">
+        <button id="btnProcess" class="neo-btn btn-process" onclick="getTiktok()">
           <i class="fa-solid fa-wand-magic-sparkles"></i> Proses
         </button>
         <button class="neo-btn btn-reset" onclick="resetAll()">
@@ -697,10 +697,10 @@
         </button>
       </div>
 
-      <!-- Hasil Render -->
+      <!-- Hasil Render & Notifikasi Inline (TANPA ALERT) -->
       <div id="result"></div>
 
-      <!-- Developer Footer Sesuai Request -->
+      <!-- Developer Footer -->
       <div class="neo-footer">
         <div class="dev-badge">
           <i class="fa-solid fa-crown"></i>
@@ -710,7 +710,7 @@
       </div>
     </div>
 
-    <!-- Tambahan Ruang Kosong (Bimbingan, FAQ, dll) -->
+    <!-- PENGISI RUANG KOSONG (Fitur, Panduan, & Info) -->
     <div class="feature-grid">
       <div class="feature-box">
         <i class="fa-solid fa-bolt"></i>
@@ -795,13 +795,13 @@
   </div>
 
   <script>
-    /* 1. MENTAHAN AWAL: Anti Zoom */
+    /* 1. ANTI ZOOM UNTUK HP */
     document.addEventListener('gesturestart', e => e.preventDefault());
     document.addEventListener('gesturechange', e => e.preventDefault());
     document.addEventListener('gestureend', e => e.preventDefault());
     document.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, { passive: false });
 
-    /* 2. LOGIKA THEME SWITCHER */
+    /* 2. THEME SWITCHER */
     function initTheme() {
       const savedTheme = localStorage.getItem('app_theme') || 'dark';
       document.documentElement.setAttribute('data-theme', savedTheme);
@@ -831,13 +831,25 @@
     }
     initTheme();
 
-    /* 3. MENTAHAN AWAL: Logika API Asli Tanpa Modifikasi Fetch */
+    /* 3. API ASLI (TANPA ALERT BROWSER) */
     async function getTiktok() {
-      const url = document.getElementById("tiktokUrl").value.trim();
+      const input = document.getElementById("tiktokUrl");
+      const url = input.value.trim();
       const result = document.getElementById("result");
-      if (!url) return alert("Masukkan link TikTok dulu!");
+      
+      // ERROR INLINE (PENGGANTI ALERT)
+      if (!url) {
+        result.innerHTML = `
+          <div class="status-box error">
+            <i class="fa-solid fa-circle-exclamation" style="font-size: 16px;"></i>
+            <span>Hei! Masukkan link TikTok-nya dulu ya!</span>
+          </div>
+        `;
+        input.focus();
+        return;
+      }
 
-      // Tampilan loading disesuaikan CSS Neobrutalism
+      // LOADING STATE
       result.innerHTML = `
         <div class="status-box loading">
           <i class="fa-solid fa-spinner fa-spin"></i>
@@ -846,7 +858,7 @@
       `;
 
       try {
-        // PERHATIAN: Baris fetch di bawah ini adalah 100% murni kode mentahan awal
+        // MURNI FETCH API AWAL KAMU
         const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`;
         const response = await fetch(apiUrl);
         const json = await response.json();
@@ -867,10 +879,10 @@
         const cover = data.cover;
         const title = data.title || 'Video TikTok';
         
-        // Membersihkan tanda kutip dari judul agar tidak error di tombol HTML
+        // Menghapus kutip dari judul untuk menghindari error pada atribut HTML
         const safeTitle = title.replace(/['"]/g, '');
 
-        // Tampilan render hasil disesuaikan CSS Neobrutalism
+        // RENDER HASIL VIDEO
         result.innerHTML = `
           <div class="result-container">
             <div class="preview-card">
@@ -897,13 +909,13 @@
         result.innerHTML = `
           <div class="status-box error">
             <i class="fa-solid fa-circle-xmark"></i>
-            <span>Terjadi kesalahan. Coba lagi nanti.</span>
+            <span>Terjadi kesalahan jaringan. Coba lagi nanti.</span>
           </div>
         `;
       }
     }
 
-    /* 4. MENTAHAN AWAL: Fungsi Reset & Download File */
+    /* 4. FUNGSI RESET & DOWNLOAD ASLI */
     function resetAll() {
       document.getElementById("tiktokUrl").value = "";
       document.getElementById("result").innerHTML = "";
